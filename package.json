@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "nodemon ./bin/www",
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "seed:user": "node ./bin/seed.user.js",
+    "seed:service": "node ./bin/seed.service.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
