@@ -45,16 +45,16 @@ app.use(
  */
 
 const authRouter = require("./routes/auth");
-//const usersRouter = require("./routes/users")
+const usersRouter = require("./routes/users")
 const servicesRouter = require("./routes/services")
 
 app.use("/api/auth", authRouter);
-//app.use("/api/users", usersRouter);
+app.use("/api/dashboard", usersRouter);
 app.use("/api/services", servicesRouter);
 
 // 404 Middleware
 app.use((req, res, next) => {
-  const error = new Error("Ressource not found.");
+  const error = new Error("Resource not found.");
   error.status = 404;
   next(err);
 });
