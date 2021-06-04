@@ -15,7 +15,7 @@ const eventSchema = new Schema({
   formattedAddress: String,
   services: [{ type: Schema.Types.ObjectId, ref: "Service" }],
   totalCost: Number,
-  buyer: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  buyer: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
 const Event = mongoose.model("Event", eventSchema);

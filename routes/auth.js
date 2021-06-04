@@ -21,6 +21,7 @@ router.post("/signin", (req, res, next) => {
         return res.status(400).json({ message: "Invalid credentials" });
       }
 
+      req.session.currentUser = userDocument._id;
       res.redirect("/api/auth/isLoggedIn");
     })
     .catch(next);

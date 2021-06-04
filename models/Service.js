@@ -9,7 +9,7 @@ const serviceSchema = new Schema({
     required: true,
     enum: ["Venue", "Food & Beverage", "Music", "Entertainment", "Decorations & Favors", "Furniture", "Costumes"],
   },
-  vendorId: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  vendorId: { type: Schema.Types.ObjectId, ref: "User" },
   images: [String],
   durationHrs: Number,
   price: Number,
