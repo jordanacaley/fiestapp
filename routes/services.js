@@ -36,7 +36,7 @@ router.get("/venues", (req, res, next) => {
     .catch(next);
 });
 
-router.get("/food-and-beverage", (req, res, next) => {
+router.get("/food-and-beverages", (req, res, next) => {
   Service.find({ category: "Food & Beverage" })
     .populate("vendorId")
     .then((serviceDocuments) => {
