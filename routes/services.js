@@ -15,6 +15,18 @@ router.get("/", (req, res, next) => {
     .catch(next); // cf app.js error handling middleware
 });
 
+// Get services by vendorId
+router.get("/vendor/:id", (req, res, next) => {
+  const vendorId = req.params.id; // We retrieve user id
+
+  // And then get all the services matching the vendorId field that matches the users id
+  Service.find({ vendorId: vendorId })
+    .then((itemDocuments) => {
+      res.status(200).json(itemDocuments);
+    })
+    .catch(next);
+});
+
 // Get services by category
 router.get("/entertainment", (req, res, next) => {
   Service.find({ category: "Entertainment" })
