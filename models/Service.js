@@ -13,6 +13,7 @@ const serviceSchema = new Schema({
   images: [String],
   durationHrs: Number,
   price: Number,
+  cityName: String,
   location: {
     type: {
       type: String,
