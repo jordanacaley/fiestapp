@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Service = require("../models/Service");
+const User = require("../models/User");
 const uploader = require("../config/cloudinary");
 const requireAuth = require("../middlewares/requireAuth"); // Route protection middleware : )
 
@@ -110,6 +111,7 @@ router.get("/:id", (req, res, next) => {
 // Create new service
 router.post("/", requireAuth, uploader.array("images", 5), (req, res, next) => {
   const updateValues = { ...req.body };
+  console.log(req.body)
 
   let imagesArray = []; // Create empty array for image urls
 
@@ -129,6 +131,13 @@ router.post("/", requireAuth, uploader.array("images", 5), (req, res, next) => {
           console.log("here");
           res.status(201).json(service); // send the populated document.
         })
+            .then(() => {
+              User.findByIdAndUpdate(req.session.currentUser,  { $push: {servicesOffered: serviceDocument.id } } )
+              .then(() => {
+                return res.sendStatus(204);
+              })
+              .catch(next);
+            })
         .catch(next);
     })
     .catch(next);
@@ -185,7 +194,11 @@ router.delete("/:id", requireAuth, (req, res, next) => {
 
       Service.findByIdAndDelete(req.params.id)
         .then(() => {
-          return res.sendStatus(204);
+          User.findByIdAndUpdate(req.session.currentUser,  { $pull: {servicesOffered: req.params.id } } )
+          .then(() => {
+            return res.sendStatus(204);
+          })
+          .catch(next);
         })
         .catch(next);
     })

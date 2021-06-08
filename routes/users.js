@@ -7,6 +7,7 @@ const requireAuth = require("../middlewares/requireAuth");
 
 router.get("/", requireAuth, (req, res, next) => {
   User.findById(req.session.currentUser)
+    .populate("servicesOffered") 
     .select("-password") // Remove the password field from the found document.
     .then((userDocument) => {
       return res.status(200).json(userDocument);
