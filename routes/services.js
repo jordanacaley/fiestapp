@@ -102,6 +102,7 @@ router.get("/costumes", (req, res, next) => {
 // Get one service
 router.get("/:id", (req, res, next) => {
   Service.findById(req.params.id)
+    .populate("vendorId")
     .then((serviceDocument) => {
       return res.status(200).json(serviceDocument);
     })
