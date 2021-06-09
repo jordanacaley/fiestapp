@@ -61,7 +61,7 @@ app.use("/api/vendors", vendorsRouter);
 app.use((req, res, next) => {
   const error = new Error("Resource not found.");
   error.status = 404;
-  next(err);
+  next(error);
 });
 
 // Error handler middleware
