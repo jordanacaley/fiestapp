@@ -36,6 +36,8 @@ router.post("/signup", uploader.single("profileImg"), (req, res, next) => {
 
   if (req.file) {
     updateValues.profileImg = req.file.path;
+  } else {
+    updateValues.profileImg = "https://img-premium.flaticon.com/png/512/194/194938.png?token=exp=1623329062~hmac=9f4b786573476dbf3dfcd7bc960b7b44"
   }
 
   console.log(updateValues);

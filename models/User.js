@@ -3,7 +3,11 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   email: { type: String, required: true },
-  profileImg: String,
+  profileImg: {
+    type: String,
+    default:
+      "https://img-premium.flaticon.com/png/512/194/194938.png?token=exp=1623329062~hmac=9f4b786573476dbf3dfcd7bc960b7b44",
+  },
   password: { type: String, required: true },
   lastName: String,
   firstName: String,
