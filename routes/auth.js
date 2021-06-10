@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
+const uploader = require("../config/cloudinary");
 
 const salt = 10;
 
@@ -27,17 +28,30 @@ router.post("/signin", (req, res, next) => {
     .catch(next);
 });
 
-router.post("/signup", (req, res, next) => {
-  const { email, password, firstName, lastName, phoneNumber, description, profileImg } = req.body;
+router.post("/signup", uploader.single("profileImg"), (req, res, next) => {
 
+  const updateValues = { ...req.body };
+
+  console.log(req.file)
+
+  if (req.file) {
+    updateValues.profileImg = req.file.path;
+  }
+
+  console.log(updateValues);
+  
+  const { email, password, firstName, lastName, phoneNumber, description } = req.body;
+
+  
   User.findOne({ email })
     .then((userDocument) => {
       if (userDocument) {
         return res.status(400).json({ message: "Email already taken" });
       }
-
+      
       const hashedPassword = bcrypt.hashSync(password, salt);
-      const newUser = { email, lastName, firstName, phoneNumber, description, profileImg, password: hashedPassword };
+      const newUser = { email, lastName, firstName, phoneNumber, description, profileImg: updateValues.profileImg, password: hashedPassword };
+      
 
       User.create(newUser)
         .then((newUserDocument) => {
@@ -49,6 +63,7 @@ router.post("/signup", (req, res, next) => {
     })
     .catch(next);
 });
+
 
 router.get("/isLoggedIn", (req, res, next) => {
   if (!req.session.currentUser)

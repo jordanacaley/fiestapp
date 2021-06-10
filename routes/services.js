@@ -167,7 +167,7 @@ router.patch(
 
         if (req.files) {
           req.files.forEach(element => imagesArray.push(element.path)); // Push image urls into empty array
-          service.images = [...imagesArray, ...serviceDocument.images];
+          service.images = [...serviceDocument.images, ...imagesArray];
         }
 
         Service.findByIdAndUpdate(req.params.id, service, { new: true })
