@@ -206,4 +206,25 @@ router.delete("/:id", requireAuth, (req, res, next) => {
     .catch(next);
 });
 
+// Delete an image from a service
+
+router.delete("/:id/img", requireAuth, (req, res, next) => {
+  Service.findById(req.params.id)
+    .then((serviceDocument) => {
+      if (!serviceDocument) {
+        return res.status(404).json({ message: "Service not found" });
+      }
+      if (serviceDocument.vendorId.toString() !== req.session.currentUser) {
+        return res.status(403).json({ message: "You can't delete this service" });
+      }
+
+      Service.findByIdAndUpdate(req.params.id, { $pull: {images: req.query.image } })
+          .then(() => {
+            return res.sendStatus(204);
+          })
+          .catch(next);
+        })
+    .catch(next);
+});
+
 module.exports = router;
